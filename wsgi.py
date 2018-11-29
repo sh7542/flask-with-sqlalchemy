@@ -11,7 +11,7 @@ db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
 from models import Product
-from schemas import products_schema
+from schemas import products_schema, product_schema
 
 @app.route('/products')
 def products():
@@ -62,7 +62,7 @@ def get_del_product(product_id):
     product = db.session.query(Product).get(product_id)
     if product:
         if request.method == 'GET':
-            return products_schema.jsonify([product]), 200
+            return product_schema.jsonify(product), 200
         else:
             db.session.delete(product)
             db.session.commit()
